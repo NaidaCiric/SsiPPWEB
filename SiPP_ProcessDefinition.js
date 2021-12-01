@@ -31,32 +31,51 @@ function loadDoc() {
     };
 
 }
+/*
 function myFunction(parameter) {
     let x = document.createElement("INPUT");
     x.setAttribute("type", "text");
     x.setAttribute("value", parameter.type);
     document.body.appendChild(x);
     return x;
-}
-function makeButton(value, param) {
-    let b = document.createElement('button');
-    b.innerHTML = value;
-    b.value = value;
-    b.className = 'buttons';
-    b.id = value;
-    b.draggable;
-    b.addEventListener('click', myFunction(param));
-    document.body.appendChild(b);
-    return b;
+}*/
+function makeTextArea(value) {
+    let ta = document.createElement('TEXTAREA');
+    ta.innerHTML = value;
+    ta.value = value;
+    ta.className = 'textAreas';
+    ta.id = value;
+    ta.rows = 4;
+    ta.cols = 40;
+    ta.disabled = true;
+    ta.style = "overflow:auto;resize:none";
+    //ta.addEventListener('click', myFunction(param));
+    document.body.appendChild(ta);
+    return ta;
 }
 function xmlFunction(xml) {
     let parser = new DOMParser();
     let xmlDoc = parser.parseFromString(xml, "text/xml");
     let x = xmlDoc.getElementsByTagName("module");
     for (let elem of x) {
-        let button = makeButton(elem.getAttribute('name'),elem.childNodes.item(0).nextSibling.getAttribute('name'));
-        console.log(elem.childNodes.item(0).nextSibling.getAttribute('name'));
-        console.log(elem.getAttribute('name'));
+
+        let table = document.getElementById("myTableData");
+        let subTable = document.getElementById("mySubTableData")
+        let rowCount = table.rows.length;
+        let subTableRowCount = subTable.rows.length;
+        let row = table.insertRow(rowCount);
+        let nextRow = table.insertRow(rowCount+1);
+        let subRow = subTable.insertRow(subTableRowCount);
+        //let text = elem.getAttribute('name') + "\n      " +elem.childNodes.item(0).nextSibling.getAttribute('name') +
+        //  "       " + elem.childNodes.item(0).nextSibling.getAttribute('engineering_unit');
+        //row.setAttribute("colspan", "2");
+        //row.insertCell(0).firstChild = makeTextArea(text);
+
+        //inserting values in the tables
+        row.insertCell(0).innerHTML = elem.getAttribute('name');
+        subRow.insertCell(0).innerHTML = elem.childNodes.item(0).nextSibling.getAttribute('name');
+        subRow.insertCell(1).innerHTML = elem.childNodes.item(0).nextSibling.getAttribute('engineering_unit');
+        nextRow.insertCell(0).innerHTML = "↓";
     }
 }
 loadDoc();
